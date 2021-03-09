@@ -59,9 +59,5 @@ public class ClientMain1
     {
       e.printStackTrace();
     }
-
-
-
-
   }
 }
