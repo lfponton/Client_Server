@@ -17,24 +17,27 @@ public class ServerMain1
       {
         Socket socket = serverSocket.accept();
         System.out.println(
-            "Client connected from " + socket.getInetAddress().getHostAddress() + " " + socket.getLocalPort());
+            "Client connected from " + socket.getInetAddress().getHostAddress()
+                + " " + socket.getLocalPort());
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(socket.getInputStream()));
         out.println("Hello from server. Write your name:");
         String nameFromClient = in.readLine();
         out.println("Hello " + nameFromClient + "!");
         out.println("Please give me a string to convert to uppercase:");
         String message = in.readLine();
-        while (!message.equals("exit"))
+        while (!message.equals("stop"))
         {
           out.println(message.toUpperCase());
-          out.println("Would you like me to convert other strings?");
+          out.println("More strings! Otherwise, enter 'stop':");
           message = in.readLine();
         }
-        out.println("Bye");
+        out.println("Bye!");
       }
     }
-    catch (IOException e) {
+    catch (IOException e)
+    {
       e.printStackTrace();
     }
   }

@@ -13,45 +13,40 @@ public class ClientMain1
     {
       Socket socket = new Socket("localhost", 1234);
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(socket.getInputStream()));
 
       Scanner scanner = new Scanner(System.in);
 
       String message = in.readLine();
       System.out.println(message);
+      System.out.print("> ");
       String name = scanner.nextLine();
       out.println(name);
       message = in.readLine();
       System.out.println(message);
       message = in.readLine();
       System.out.println(message);
+      System.out.print("> ");
       String stringToUppercase = scanner.nextLine();
       out.println(stringToUppercase);
       message = in.readLine();
-      System.out.println("How many time should I print it?");
-      int numberOfTimes = scanner.nextInt();
-      scanner.nextLine();
-      for (int i = 0; i < numberOfTimes; i++)
+      while (!stringToUppercase.equals("stop"))
       {
-        System.out.println(message);
-      }
-      while (!message.equals("Bye"))
-      {
+        System.out.println("How many times should I print it?");
+        System.out.print("> ");
+        int numberOfTimes = scanner.nextInt();
+        scanner.nextLine();
+        for (int i = 0; i < numberOfTimes; i++)
+        {
+          System.out.println(message);
+        }
         message = in.readLine();
         System.out.println(message);
+        System.out.print("> ");
         stringToUppercase = scanner.nextLine();
         out.println(stringToUppercase);
         message = in.readLine();
-        if (!stringToUppercase.equals("exit"))
-        {
-          System.out.println("How many times should I print it?");
-          numberOfTimes = scanner.nextInt();
-          scanner.nextLine();
-          for (int i = 0; i < numberOfTimes; i++)
-          {
-            System.out.println(message);
-          }
-        }
       }
       System.out.println(message);
     }
