@@ -49,5 +49,4 @@ public class ServerSocketHandler implements Runnable
       e.printStackTrace();
     }
   }
-
 }
