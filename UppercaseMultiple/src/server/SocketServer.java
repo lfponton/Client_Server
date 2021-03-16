@@ -17,8 +17,8 @@ public class SocketServer
         Socket socket = serverSocket.accept();
         System.out.println("Client connected from " + socket.getInetAddress()
             .getHostAddress() + " " + socket.getLocalPort());
-        ServerSocketHandler serverSocketHandler = new ServerSocketHandler(socket);
-        Thread t = new Thread(serverSocketHandler);
+
+        Thread t = new Thread(new ServerSocketHandler(socket));
         t.start();
       }
     }

@@ -20,17 +20,14 @@ public class ServerSocketHandler implements Runnable
   {
     try
     {
+      ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
       ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-      ObjectInputStream in = new ObjectInputStream(new ObjectInputStream(socket.getInputStream()));
 
-      while (true)
-      {
-        Message message = (Message) in.readObject();
-        Message uppercase = new Message(message.getMsg().toUpperCase());
 
-        out.writeObject(uppercase);
-        System.out.println(uppercase);
-      }
+      Message message = (Message) in.readObject();
+
+      message = new Message(message.getMsg().toUpperCase());
+      out.writeObject(message);
     }
     catch (IOException | ClassNotFoundException e)
     {
