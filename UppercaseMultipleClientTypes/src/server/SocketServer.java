@@ -13,20 +13,34 @@ public class SocketServer
       ServerSocket serverSocket = new ServerSocket(1234);
 
       while (true) {
+        System.out.println("Waiting for client");
         Socket socket = serverSocket.accept();
 
-        StringModel stringModel = new StringModel();
+        //StringModel stringModel = new StringModel();
 
         System.out.println("Client connected from " + socket.getInetAddress()
         .getHostAddress() + " " + socket.getLocalPort());
 
-        Thread t = new Thread(new ServerSocketHandler(socket, stringModel));
-        t.start();
+        ServerSocketHandler serverSocketHandler = new ServerSocketHandler(
+            socket, this);
+
+        new Thread(serverSocketHandler).start();
+        //Thread t = new Thread(new ServerSocketHandler(socket, stringModel));
+        //t.start();
       }
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
+  }
+
+  public String convertToUppercase(String argument) {
+      return argument.toUpperCase();
+  }
+
+  public String convertToLowercase(String argument)
+  {
+    return argument.toLowerCase();
   }
 }

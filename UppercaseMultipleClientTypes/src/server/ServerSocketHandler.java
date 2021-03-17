@@ -9,17 +9,66 @@ import java.net.Socket;
 
 public class ServerSocketHandler implements Runnable
 {
-
-  private final Socket socket;
+  private ObjectInputStream inFromClient;
+  private ObjectOutputStream outToClient;
+  private SocketServer socketServer;
+  private Socket socket;
   private StringModel stringModel;
 
-  public ServerSocketHandler(Socket socket, StringModel stringModel) {
+  public ServerSocketHandler(Socket socket, SocketServer server)
+  {
     this.socket = socket;
-    this.stringModel = stringModel;
+    socketServer = server;
+    try
+    {
+      inFromClient = new ObjectInputStream(socket.getInputStream());
+      outToClient = new ObjectOutputStream(socket.getOutputStream());
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public void run()
   {
+
+    try
+    {
+      while (true)
+      {
+        Request request = (Request) inFromClient.readObject();
+        String result = "N/A";
+        if ("Uppercase".equals(request.getRequestType()))
+        {
+          result = socketServer.convertToUppercase(request.getArgument());
+        }
+        else if ("Lowercase".equals(request.getRequestType()))
+        {
+          result = socketServer.convertToLowercase(request.getArgument());
+        }
+        else if ("Closeclient".equals(request.getRequestType()))
+        {
+          inFromClient.close();
+          outToClient.close();
+          socket.close();
+          break;
+        }
+        Request response = new Request(result, "Response");
+        outToClient.writeObject(response);
+      }
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+
+
+    /*
     try
     {
       ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -48,5 +97,7 @@ public class ServerSocketHandler implements Runnable
     {
       e.printStackTrace();
     }
+
+     */
   }
 }

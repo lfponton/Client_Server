@@ -17,13 +17,30 @@ public void sendMessage(String msg)
       {
         Socket socket = new Socket("localhost", 1234);
 
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ObjectOutputStream out = new ObjectOutputStream(
+        ObjectOutputStream outToServer = new ObjectOutputStream(
             socket.getOutputStream());
+        ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
 
-        String message = (String) in.readObject();
-        System.out.println(message);
         Scanner scanner = new Scanner(System.in);
+
+        while (true)
+        {
+          System.out.println("Request type?");
+          String requestType = scanner.nextLine();
+          System.out.println("Argument?");
+          String argument = scanner.nextLine();
+          Request request = new Request(argument, requestType);
+          outToServer.writeObject(request);
+          if ("Closeclient".equals(requestType)) {
+            outToServer.close();
+            inFromServer.close();
+            socket.close();
+            break;
+          }
+          Request response = (Request) inFromServer.readObject();
+          System.out.println(response.getArgument());
+        }
+        /*
         String input = scanner.nextLine();
 
         Request.RequestType requestType;
@@ -44,6 +61,8 @@ public void sendMessage(String msg)
 
         System.out.println(request.getArg());
 
+
+         */
       }
       catch (IOException | ClassNotFoundException e)
       {
