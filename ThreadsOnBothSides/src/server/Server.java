@@ -8,17 +8,24 @@ public class Server
 {
   public void start()
   {
-    try {
+    try
+    {
       ServerSocket serverSocket = new ServerSocket(1234);
 
-      Socket socket = serverSocket.accept();
+      System.out.println("Server started.");
+      int id = 0;
+      while (true)
+      {
+        System.out.println("Waiting for client...");
 
-      ServerSocketHandler serverSocketHandler = new ServerSocketHandler(socket);
+        Socket socket = serverSocket.accept();
+        System.out.println("Client accepted.");
+        new Thread(new ServerSocketHandler(socket, id)).start();
+        id++;
+      }
 
-      Thread t = new Thread(serverSocketHandler);
-      t.start();
-
-    } catch (IOException e)
+    }
+    catch (IOException e)
     {
       e.printStackTrace();
     }
