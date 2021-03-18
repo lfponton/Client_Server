@@ -12,6 +12,8 @@ public class ServerSocketHandler implements Runnable
   private Pool pool;
   private Socket socket;
   private ObjectOutputStream outToClient;
+  private String username;
+
   public ServerSocketHandler(Socket socket, Pool pool) {
     this.socket = socket;
     this.pool = pool;
@@ -26,13 +28,23 @@ public class ServerSocketHandler implements Runnable
       System.out.println("Client connected from " + socket.getInetAddress().getHostAddress()
       + " " + socket.getPort());
 
-      Message message = (Message) inFromClient.readObject();
+      while (true)
+      {
+        Message message = (Message) inFromClient.readObject();
 
-      System.out.println(message);
+        username = message.getUserName();
 
-      pool.broadcast(message.getUserName());
-      pool.broadcast(message.getMessage());
+        System.out.println(message);
 
+        if (message.getMessage().equals("exit"))
+        {
+          pool.removeConnection(this);
+          outToClient.writeObject(message);
+          socket.close();
+          break;
+        }
+        pool.broadcast(message.toString());
+      }
     }
     catch (IOException | ClassNotFoundException e)
     {
@@ -44,11 +56,17 @@ public class ServerSocketHandler implements Runnable
   {
     try
     {
-      outToClient.writeObject(message);
+      outToClient.writeObject(new Message(message, username));
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
   }
+
+  public String getClientUsername()
+  {
+    return username;
+  }
+
 }

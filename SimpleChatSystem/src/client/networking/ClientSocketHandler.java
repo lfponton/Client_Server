@@ -26,10 +26,16 @@ public class ClientSocketHandler implements Runnable
     try
     {
       ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
-      String username = (String) inFromServer.readObject();
-      String message = (String) inFromServer.readObject();
-      Message response = new Message(message, username);
-      client.messageReceived(message.toString());
+      while (true)
+      {
+        Message response = (Message) inFromServer.readObject();
+        if (response.getMessage().equalsIgnoreCase("exit"))
+        {
+          socket.close();
+          break;
+        }
+        client.messageReceived(response.getMessage());
+      }
     }
     catch (IOException | ClassNotFoundException e)
     {

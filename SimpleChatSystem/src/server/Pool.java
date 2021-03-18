@@ -14,7 +14,13 @@ public class Pool
 
   public synchronized void broadcast(String message) {
     for (ServerSocketHandler connection : connections) {
+
       connection.sendMessage(message);
     }
+  }
+
+  public void removeConnection(ServerSocketHandler handler)
+  {
+    connections.remove(handler);
   }
 }
