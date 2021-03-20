@@ -45,7 +45,8 @@ public class ClientSocketHandler implements Runnable
 
   public void sendMessage(String message) throws IOException
   {
-    Message msg = new Message(message, client.getUsername());
+    //Message msg = new Message(message, client.getUsername());
+    Message msg = new Message(message);
     outToServer.writeObject(msg);
   }
 }

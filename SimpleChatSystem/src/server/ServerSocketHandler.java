@@ -32,9 +32,8 @@ public class ServerSocketHandler implements Runnable
       {
         Message message = (Message) inFromClient.readObject();
 
-        username = message.getUserName();
+        //username = message.getUserName();
 
-        System.out.println(message);
 
         if (message.getMessage().equals("exit"))
         {
@@ -56,7 +55,8 @@ public class ServerSocketHandler implements Runnable
   {
     try
     {
-      outToClient.writeObject(new Message(message, username));
+      //outToClient.writeObject(new Message(message, username));
+      outToClient.writeObject(new Message(message));
     }
     catch (IOException e)
     {

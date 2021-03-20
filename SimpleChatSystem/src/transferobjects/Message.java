@@ -6,7 +6,7 @@ public class Message implements Serializable
 {
   private String message;
   private String userName;
-
+/*
   public Message(String message, String userName)
   {
     this.message = message;
@@ -25,5 +25,20 @@ public class Message implements Serializable
   @Override public String toString() {
     return userName + ": " + message;
   }
+ */
 
+  public Message(String message)
+  {
+    this.message = message;
+  }
+
+  public String getMessage()
+  {
+    return message;
+  }
+
+  @Override public String toString()
+  {
+    return message;
+  }
 }

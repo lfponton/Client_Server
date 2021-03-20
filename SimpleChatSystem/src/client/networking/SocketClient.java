@@ -1,5 +1,6 @@
 package client.networking;
 
+import client.ui.ChatController;
 import transferobjects.Message;
 
 import java.io.IOException;
@@ -10,6 +11,8 @@ public class SocketClient
 {
   private String username;
   private ClientSocketHandler handler;
+  private ChatController controller;
+  private String message;
 
   public void start() {
     try
@@ -18,10 +21,13 @@ public class SocketClient
       handler = new ClientSocketHandler(this, socket);
       new Thread(handler).start();
 
+
+      /*
       System.out.println("Enter username: ");
       System.out.print("> ");
       Scanner scanner = new Scanner(System.in);
       username = scanner.nextLine();
+
       while (true)
       {
         System.out.println("Enter message: ");
@@ -32,6 +38,8 @@ public class SocketClient
           break;
         }
       }
+
+       */
     }
     catch (IOException e)
     {
@@ -54,9 +62,22 @@ public class SocketClient
       e.printStackTrace();
     }
   }
-
+/*
   public void messageReceived(String msg)
   {
     System.out.println(msg);
+  }
+
+
+ */
+
+  public void messageReceived(String msg)
+  {
+    controller.updateMessageArea(new Message(msg));
+  }
+
+  public void setController(ChatController controller)
+  {
+    this.controller = controller;
   }
 }

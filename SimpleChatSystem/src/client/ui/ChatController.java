@@ -12,23 +12,31 @@ public class ChatController
 {
 
   @FXML private TextField messageField;
-  @FXML private Button sendButton;
+  @FXML private Button sendMessageButton;
   @FXML private TextArea messagesArea;
   private SocketClient client;
+  private ViewHandler viewHandler;
 
-  public void init(SocketClient client) {
+  public void init(SocketClient client, ViewHandler viewHandler) {
     this.client = client;
+    this.viewHandler = viewHandler;
   }
 
   public void sendMessageButton(ActionEvent actionEvent) {
-    Message message = new Message(messageField.getText(), client.getUsername());
 
-    client.sendMessage(message.toString());
+    //Message message = new Message(messageField.getText(), client.getUsername());
+    Message message = new Message(messageField.getText());
+    client.sendMessage(message.getMessage());
+    messageField.clear();
+    if (message.getMessage().equalsIgnoreCase("exit"))
+    {
+      viewHandler.getStage().close();
+    }
   }
 
-  public void updateMessageArea()
+  public void updateMessageArea(Message message)
   {
-
+    messagesArea.appendText(message.toString() + "\n");
   }
 
 }

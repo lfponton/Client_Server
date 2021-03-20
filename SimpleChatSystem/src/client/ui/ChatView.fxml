@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ui.ChatController">
    <children>
-      <TextField />
-      <Button mnemonicParsing="false" text="Button" />
-      <TextArea prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="messageField" />
+      <Button fx:id="sendMessageButton" mnemonicParsing="false" text="Button" onAction="#sendMessageButton"/>
+      <TextArea fx:id="messagesArea" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </VBox>
